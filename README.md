@@ -1,57 +1,21 @@
-这一份文档写得非常专业，解释了为什么会遇到 500 错误，显得你对后端逻辑很懂。
+# Leyifan AutoSign V2 (乐淘一番自动签到)
 
-Markdown
-# Leyifan AutoSign (乐淘一番自动签到)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Status](https://img.shields.io/badge/Status-Stable-green)
 
-基于 Python 的乐淘一番 (Leyifan) 移动端 H5 站点自动签到脚本。
-本项目通过逆向分析 API 通信协议，实现了基于 Token 的多账号自动化维护。
+A robust automation script for Leyifan (乐淘一番) daily check-ins with **Auto-Login** support.
 
-## ✨ 特性 (Features)
+## 🚀 New Features in V2.2
+* **Auto-Login**: Automatically retrieves a fresh Token using your credentials. No more manual packet sniffing!
+* **Smart Retry**: Handles session expiration gracefully.
+* **Domain Fix**: Corrected API endpoints to `api.mall.leyifan.cn`.
 
-* **Token 鉴权**: 无需 Cookie，直接使用 `Authori-zation` 令牌，有效期更长。
-* **逻辑修正**: 修复了官方接口使用 `GET` 方法但看似 `POST` 的误导性设计。
-* **异常兼容**: 完美处理后端非标准的 `500` 状态码（用于表示重复签到）。
-* **风控规避**: 内置随机抖动 (Jitter) 延时，模拟真人操作频率。
+## 🛠️ Configuration
 
-## 🛠️ 快速开始 (Quick Start)
-
-### 1. 环境准备
-确保已安装 Python 3.x，并安装依赖库：
-```bash
-pip install -r requirements.txt
-
-运行
-2. 获取 Token
-使用浏览器（推荐 Chrome 无痕模式）登录乐淘一番 H5 页面。
-
-按 F12 打开开发者工具 -> Network (网络)。
-
-刷新页面或点击签到，找到任意 user 或 integral 请求。
-
-在 Request Headers 中复制 Authori-zation 的值。
-
-3. 配置与运行
-打开 leyifan_auto.py，将 Token 填入 tokens 列表：
-
-Python
-tokens = [
-    "9dd9844f12ec4f308bebbdfxxxxxx",
-    "你的第二个Token..."
+1. Open `main.py`.
+2. Add your accounts to the list:
+```python
+accounts = [
+    ("my_email@gmail.com", "my_password_123"),
+    ("another_account@qq.com", "password_456")
 ]
-运行脚本：
-
-Bash
-python leyifan_auto.py
-🔍 技术细节 (Technical Details)
-接口地址: https://api.mall.leyifan.com/api/front/user/sign/integral
-
-请求方法: GET (注意：非标准的写入操作)
-
-状态码处理:
-
-200 OK: 签到成功。
-
-500 Server Error: 这里的 500 通常表示 "今日已签到"，并非服务器宕机。
-
-⚠️ 免责声明
-本项目仅供 Python 学习与逆向工程研究使用，请勿用于商业用途。
